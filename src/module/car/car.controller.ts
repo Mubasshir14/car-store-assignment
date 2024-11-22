@@ -10,6 +10,7 @@ const createCar = async (req: Request, res: Response) => {
       message: 'Car created successfully',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -27,6 +28,7 @@ const getCar = async (req: Request, res: Response) => {
       message: 'Cars are retrieved successfully',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -45,6 +47,7 @@ const getSingleCar = async (req: Request, res: Response) => {
       message: 'Car is retrieved ',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -63,6 +66,7 @@ const deleteSingleCar = async (req: Request, res: Response) => {
       message: 'Car is deleted',
       data: result,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,
@@ -83,6 +87,7 @@ const updateCar = async (req: Request, res: Response) => {
       message: 'Car updated successfully',
       data: [result],
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     res.status(500).json({
       success: false,

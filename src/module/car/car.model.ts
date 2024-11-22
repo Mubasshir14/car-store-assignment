@@ -1,44 +1,65 @@
 import { model, Schema } from 'mongoose';
 import { TCar } from './car.interface';
 
-const carSchema = new Schema<TCar>({
-  brand: {
-    type: String,
-    required: [true, 'Brand Name is required'],
-  },
-  model: {
-    type: String,
-    required: [true, 'Model Name is required'],
-  },
-  year: {
-    type: Number,
-    required: [true, 'Year is required'],
-  },
-  price: {
-    type: Number,
-    requires: [true, 'Price is required'],
-  },
-  category: {
-    type: String,
-    enum: {
-      values: ['Sedan', 'SUV', 'Truck', 'Coupe', 'Convertible'],
-      message:
-        "{VALUE} is not correct. Choose from these 'Sedan', 'SUV', 'Truck', 'Coupe', 'Convertible'",
+const carSchema = new Schema<TCar>(
+  {
+    brand: {
+      type: String,
+      required: [true, 'Brand Name is required'],
+      minlength: [4, 'Brand Name must conatin at least 4 characters'],
+      maxlength: [30, 'Bran Name can not contain more than 30 characters'],
     },
-    required: [true, 'Category is required'],
+    model: {
+      type: String,
+      required: [true, 'Model Name is required'],
+      minlength: [4, 'Model Name must conatin at least 4 characters'],
+      maxlength: [30, 'Model Name can not contain more than 30 characters'],
+    },
+    year: {
+      type: Number,
+      required: [true, 'Year is required'],
+      validate: {
+        validator: (value: number) => {
+          const currentYear = new Date().getFullYear();
+          return value <= currentYear;
+        },
+        message:
+          '{VALUE} is not a valid year. It can not be greater than current year.',
+      },
+    },
+    price: {
+      type: Number,
+      requires: [true, 'Price is required'],
+      min: [1, 'Price can not be negative or zero'],
+    },
+    category: {
+      type: String,
+      enum: {
+        values: ['Sedan', 'SUV', 'Truck', 'Coupe', 'Convertible'],
+        message:
+          "{VALUE} is not correct. Choose from these 'Sedan', 'SUV', 'Truck', 'Coupe', 'Convertible'",
+      },
+      required: [true, 'Category is required'],
+    },
+    description: {
+      type: String,
+      required: [true, 'Description is required'],
+      minlength: [20, 'Brand Name must conatin at least 20 characters'],
+      maxlength: [400, 'Bran Name can not contain more than 400 characters'],
+    },
+    quantity: {
+      type: Number,
+      required: [true, 'Quantity is required'],
+      min: [0, 'Price can not be negative'],
+    },
+    inStock: {
+      type: Boolean,
+      default: true,
+    },
   },
-  description: {
-    type: String,
-    required: [true, 'Description is required'],
+  {
+    timestamps: true,
   },
-  quantity: {
-    type: Number,
-    required: [true, 'Quantity is required'],
-  },
-  inStock: {
-    type: Boolean,
-    default: true,
-  },
-});
+);
 
 export const Car = model<TCar>('Car', carSchema);
