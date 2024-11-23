@@ -27,7 +27,7 @@ const createOrder = async (req: Request, res: Response) => {
       email,
       car,
       quantity,
-      totalPrice
+      totalPrice,
     });
     const result = await OrderServices.createSingleOrder(
       orderValidateData.email,

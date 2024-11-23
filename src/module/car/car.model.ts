@@ -7,7 +7,7 @@ const carSchema = new Schema<TCar>(
       type: String,
       required: [true, 'Brand Name is required'],
       minlength: [4, 'Brand Name must conatin at least 4 characters'],
-      maxlength: [30, 'Bran Name can not contain more than 30 characters'],
+      maxlength: [30, 'Brand Name can not contain more than 30 characters'],
     },
     model: {
       type: String,
@@ -44,13 +44,13 @@ const carSchema = new Schema<TCar>(
     description: {
       type: String,
       required: [true, 'Description is required'],
-      minlength: [20, 'Brand Name must conatin at least 20 characters'],
-      maxlength: [400, 'Bran Name can not contain more than 400 characters'],
+      minlength: [20, 'Description must conatin at least 20 characters'],
+      maxlength: [400, 'Description can not contain more than 400 characters'],
     },
     quantity: {
       type: Number,
       required: [true, 'Quantity is required'],
-      min: [0, 'Price can not be negative'],
+      min: [0, 'Quantity can not be negative'],
     },
     inStock: {
       type: Boolean,
