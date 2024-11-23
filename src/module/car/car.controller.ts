@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { CarServices } from './car.service';
 import { TError } from './car.interface';
+import carValidationSchema from './car.validation';
 
 export const sendError = (
   res: Response,
@@ -21,7 +22,8 @@ export const sendError = (
 const createCar = async (req: Request, res: Response) => {
   try {
     const { car: carData } = req.body;
-    const result = await CarServices.createCarIntoDB(carData);
+    const validateCarData = await carValidationSchema.parse(carData);
+    const result = await CarServices.createCarIntoDB(validateCarData);
     res.status(200).json({
       success: true,
       message: 'Car created successfully',
@@ -29,7 +31,11 @@ const createCar = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    sendError(res, err.message, err, 500, err.stack);
+    if (err instanceof Error) {
+      sendError(res, 'Validation failed', err, 400, err?.stack);
+    } else {
+      sendError(res, err.message, err, 500, err.stack);
+    }
   }
 };
 

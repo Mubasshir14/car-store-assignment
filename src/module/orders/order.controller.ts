@@ -2,6 +2,7 @@
 import { Request, Response } from 'express';
 import { OrderServices } from './order.service';
 import { TError } from './order.interface';
+import orderValidationSchema from './order.validation';
 
 export const sendError = (
   res: Response,
@@ -21,8 +22,18 @@ export const sendError = (
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const { email, car, quantity } = req.body.order;
-    const result = await OrderServices.createSingleOrder(email, car, quantity);
+    const { email, car, quantity, totalPrice } = req.body.order;
+    const orderValidateData = await orderValidationSchema.parse({
+      email,
+      car,
+      quantity,
+      totalPrice
+    });
+    const result = await OrderServices.createSingleOrder(
+      orderValidateData.email,
+      orderValidateData.car,
+      orderValidateData.quantity,
+    );
 
     res.status(200).json({
       message: 'Order created successfully',
@@ -30,7 +41,11 @@ const createOrder = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err: any) {
-    sendError(res, err.message, err, 500, err.stack);
+    if (err instanceof Error) {
+      sendError(res, 'Validation Error', err.message, 400, err?.stack);
+    } else {
+      sendError(res, err.message, err, 500, err.stack);
+    }
   }
 };
 

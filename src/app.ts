@@ -13,6 +13,7 @@ app.use('/api/orders', OrderRoutes);
 const getAController = (req: Request, res: Response) => {
   res.status(200).json({
     success: true,
+    message: 'Running 🏃‍♂️🏃‍♂️🏃🏃',
   });
 };
 

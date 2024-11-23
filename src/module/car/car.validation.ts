@@ -15,7 +15,7 @@ const carValidationSchema = z.object({
 
   year: z
     .number()
-    .min(1900, { message: 'Year must be greater than or equal to 1900' })
+    .min(1, { message: 'Year must be greater than or equal to 1' })
     .max(new Date().getFullYear(), {
       message: 'Year cannot be greater than the current year',
     })
