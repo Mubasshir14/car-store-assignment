@@ -1,3 +1,10 @@
+export type TError = {
+  message: string;
+  success: false;
+  error: string | object;
+  stack?: string;
+};
+
 export type TCar = {
   brand: string;
   model: string;

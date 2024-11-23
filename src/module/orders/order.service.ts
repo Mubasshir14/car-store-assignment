@@ -1,7 +1,6 @@
 import { Types } from 'mongoose';
 import { Car } from '../car/car.model';
 import { Order } from './order.model';
-import { TOrder } from './order.interface';
 
 const createSingleOrder = async (
   email: string,
@@ -39,18 +38,21 @@ const getSingleOrderFromDb = async (id: string) => {
   const result = await Order.aggregate([
     { $match: { _id: new Types.ObjectId(id) } },
   ]);
+  if (result.length === 0) {
+    throw new Error('Order not Found 404!');
+  }
   return result;
 };
 
 const deleteSingleOrderFromDB = async (id: string) => {
-  const result = await Order.findByIdAndDelete(id);
-  return result;
-};
+  const orderToDelete = await Order.aggregate([
+    { $match: { _id: new Types.ObjectId(id) } },
+  ]);
 
-const updateSingleOrderFromDB = async (id: string, orderDta: TOrder) => {
-  const result = await Order.findByIdAndUpdate(id, orderDta, {
-    new: true,
-  });
+  if (orderToDelete.length === 0) {
+    throw new Error('Order not Found 404!');
+  }
+  const result = await Order.deleteOne({ _id: new Types.ObjectId(id) });
   return result;
 };
 
@@ -81,6 +83,5 @@ export const OrderServices = {
   getOrderFromDB,
   getSingleOrderFromDb,
   deleteSingleOrderFromDB,
-  updateSingleOrderFromDB,
   calculateTotalRevenue,
 };

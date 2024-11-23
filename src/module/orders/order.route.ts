@@ -8,6 +8,5 @@ router.get('/', OrderControllers.getOrder);
 router.get('/revenue', OrderControllers.calculateRevenue);
 router.get('/:orderId', OrderControllers.getSingleOrder);
 router.delete('/:orderId', OrderControllers.deleteSingleOrder);
-router.put('/:orderId', OrderControllers.updateOrder);
 
 export const OrderRoutes = router;

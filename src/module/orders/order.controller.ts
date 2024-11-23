@@ -1,6 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { OrderServices } from './order.service';
+import { TError } from './order.interface';
+
+export const sendError = (
+  res: Response,
+  message: string,
+  error: string | object,
+  status: number,
+  stack?: string,
+) => {
+  const errorResponse: TError = {
+    success: false,
+    message: message,
+    error: error,
+    stack: stack || undefined,
+  };
+  res.status(status).json(errorResponse);
+};
 
 const createOrder = async (req: Request, res: Response) => {
   try {
@@ -12,12 +29,8 @@ const createOrder = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message || 'Something went wrong',
-      status: false,
-      error: error.message,
-    });
+  } catch (err: any) {
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -29,12 +42,8 @@ const getOrder = async (req: Request, res: Response) => {
       status: true,
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message || 'Something went wrong',
-      status: false,
-      error: error.message,
-    });
+  } catch (err: any) {
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -47,12 +56,8 @@ const getSingleOrder = async (req: Request, res: Response) => {
       message: 'Order is retrieved successfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message || 'Something went wrong',
-      status: false,
-      error: error.message,
-    });
+  } catch (err: any) {
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -66,34 +71,7 @@ const deleteSingleOrder = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
-  }
-};
-
-const updateOrder = async (req: Request, res: Response) => {
-  try {
-    const { orderId } = req.params;
-    const { order: orderData } = req.body;
-
-    const result = await OrderServices.updateSingleOrderFromDB(
-      orderId,
-      orderData,
-    );
-    res.send({
-      status: true,
-      message: 'Order is  updated successfully',
-      data: [result],
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -108,12 +86,7 @@ const calculateRevenue = async (req: Request, res: Response) => {
       },
     });
   } catch (err: any) {
-    console.log(err);
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -122,6 +95,5 @@ export const OrderControllers = {
   getOrder,
   getSingleOrder,
   deleteSingleOrder,
-  updateOrder,
   calculateRevenue,
 };

@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import mongoose, { model, Schema } from 'mongoose';
 import { TOrder } from './order.interface';
 
 const orderSchema = new Schema<TOrder>(
@@ -16,8 +16,16 @@ const orderSchema = new Schema<TOrder>(
       },
     },
     car: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Car',
       required: [true, 'Car is required'],
+      validate: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        validator: function (value: any) {
+          return mongoose.Types.ObjectId.isValid(value);
+        },
+        message: 'Invalid Car ID',
+      },
     },
     quantity: {
       type: Number,

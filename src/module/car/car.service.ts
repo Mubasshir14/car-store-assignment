@@ -15,15 +15,32 @@ const getSingleCarFromDB = async (id: string) => {
   const result = await Car.aggregate([
     { $match: { _id: new Types.ObjectId(id) } },
   ]);
-  return result;
+  if (result.length === 0) {
+    throw new Error('Car not Found 404!');
+  }
+  return result[0];
 };
 
 const deleteSingleCarFromDB = async (id: string) => {
-  const result = await Car.findByIdAndDelete(id);
+  const carToDelete = await Car.aggregate([
+    { $match: { _id: new Types.ObjectId(id) } },
+  ]);
+
+  if (carToDelete.length === 0) {
+    throw new Error('Car not Found 404!');
+  }
+  const result = await Car.deleteOne({ _id: new Types.ObjectId(id) });
   return result;
 };
 
 const updateSingleCar = async (id: string, carData: TCar) => {
+  const carToUpdate = await Car.aggregate([
+    { $match: { _id: new Types.ObjectId(id) } },
+  ]);
+
+  if (carToUpdate.length === 0) {
+    throw new Error('Car not Found 404!');
+  }
   const result = await Car.findByIdAndUpdate(id, carData, {
     new: true,
   });

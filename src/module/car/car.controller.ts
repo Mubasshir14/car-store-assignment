@@ -1,5 +1,22 @@
 import { Request, Response } from 'express';
 import { CarServices } from './car.service';
+import { TError } from './car.interface';
+
+export const sendError = (
+  res: Response,
+  message: string,
+  error: string | object,
+  status: number,
+  stack?: string,
+) => {
+  const errorResponse: TError = {
+    success: false,
+    message: message,
+    error: error,
+    stack: stack || undefined,
+  };
+  res.status(status).json(errorResponse);
+};
 
 const createCar = async (req: Request, res: Response) => {
   try {
@@ -12,11 +29,7 @@ const createCar = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -30,11 +43,7 @@ const getCar = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -49,11 +58,7 @@ const getSingleCar = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -68,11 +73,7 @@ const deleteSingleCar = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
@@ -89,11 +90,7 @@ const updateCar = async (req: Request, res: Response) => {
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something Went Wrong',
-      err,
-    });
+    sendError(res, err.message, err, 500, err.stack);
   }
 };
 
