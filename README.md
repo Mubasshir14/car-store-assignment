@@ -97,11 +97,26 @@ Before you begin, ensure you have the following installed:
 ```plaintext
 car-store/
 ├── src/
-│   ├── models/       # Mongoose schemas and models
-│   ├── routes/       # Express routes
-│   ├── controllers/  # Request handlers
-│   ├── utils/        # Utility functions
-│   ├── server.ts     # Entry point of the application
+│   ├── app.ts             # Initializes and configures the application
+│   ├── server.ts          # Entry point to start the server
+│   ├── app/               # Application-wide configurations
+│   │   ├── config/        # Configuration-related files
+│   │   │   └── index.js   # Configuration (e.g., environment, database)
+│   ├── modules/           # Feature-specific modules
+│   │   ├── car/           # Car module
+│   │   │   ├── car.interface.ts   # TypeScript interfaces for car schema
+│   │   │   ├── car.model.ts       # Mongoose schema and model for car
+│   │   │   ├── car.validation.ts  # Validation rules for car data
+│   │   │   ├── car.route.ts       # Routes for car-related operations
+│   │   │   ├── car.controller.ts  # Request handlers for car module
+│   │   │   └── car.service.ts     # Business logic for car module
+│   │   ├── orders/        # Orders module
+│   │   │   ├── order.interface.ts  # TypeScript interfaces for orders schema
+│   │   │   ├── order.model.ts      # Mongoose schema and model for orders
+│   │   │   ├── order.validation.ts # Validation rules for orders data
+│   │   │   ├── order.route.ts      # Routes for order-related operations
+│   │   │   ├── order.controller.ts # Request handlers for orders module
+│   │   │   └── order.service.ts    # Business logic for orders module
 ├── dist/             # Compiled JavaScript files
 ├── .env              # Environment variables
 ├── .eslintrc.js      # ESLint configuration
@@ -109,6 +124,7 @@ car-store/
 ├── package.json      # Project dependencies and scripts
 ├── tsconfig.json     # TypeScript configuration
 └── README.md         # Project documentation
+
 ```
 
 ---
@@ -124,6 +140,16 @@ car-store/
 | POST   | `/api/cars`     | Add a new car          |
 | PUT    | `/api/cars/:id` | Update an existing car |
 | DELETE | `/api/cars/:id` | Delete a car by ID     |
+
+
+### **Orders**
+
+| Method | Endpoint          | Description            |
+| ------ | ---------------   | ---------------------- |
+| GET    | `/api/orders`     | Retrieve all orders    |
+| GET    | `/api/orders/:id` | Retrieve a order by ID |
+| POST   | `/api/orders`     | Add a new orders       |
+| DELETE | `/api/orders/:id` | Delete a orders by ID  |
 
 ---
 
