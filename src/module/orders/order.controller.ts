@@ -22,7 +22,7 @@ export const sendError = (
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const { email, car, quantity, totalPrice } = req.body.order;
+    const { email, car, quantity, totalPrice } = req.body;
     const orderValidateData = await orderValidationSchema.parse({
       email,
       car,
@@ -34,7 +34,6 @@ const createOrder = async (req: Request, res: Response) => {
       orderValidateData.car,
       orderValidateData.quantity,
     );
-
     res.status(200).json({
       message: 'Order created successfully',
       status: true,
@@ -67,8 +66,8 @@ const getSingleOrder = async (req: Request, res: Response) => {
     const { orderId } = req.params;
     const result = await OrderServices.getSingleOrderFromDb(orderId);
     res.status(200).json({
-      success: true,
       message: 'Order is retrieved successfully',
+      success: true,
       data: result,
     });
   } catch (err: any) {
@@ -81,8 +80,8 @@ const deleteSingleOrder = async (req: Request, res: Response) => {
     const { orderId } = req.params;
     const result = await OrderServices.deleteSingleOrderFromDB(orderId);
     res.status(200).json({
-      success: true,
       message: 'Order is deleted successfully',
+      success: true,
       data: result,
     });
   } catch (err: any) {
@@ -94,8 +93,8 @@ const calculateRevenue = async (req: Request, res: Response) => {
   try {
     const result = await OrderServices.calculateTotalRevenue();
     res.status(200).json({
-      success: true,
       message: 'Revenue calculated successfully',
+      success: true,
       data: {
         totalRevenue: result,
       },

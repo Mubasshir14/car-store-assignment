@@ -56,9 +56,27 @@ const carSchema = new Schema<TCar>(
       type: Boolean,
       default: true,
     },
+    // createdAt: {
+    //   type: String
+    // },
+    // updatedAt: {
+    //   type: String
+    // }
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_, ret) => {
+        delete ret.__v;
+        return ret;
+      },
+    },
+    toObject: {
+      transform: (_, ret) => {
+        delete ret.__v;
+        return ret;
+      },
+    },
   },
 );
 

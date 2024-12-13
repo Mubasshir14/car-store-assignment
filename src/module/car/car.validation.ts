@@ -46,6 +46,8 @@ const carValidationSchema = z.object({
     .nonnegative({ message: 'Quantity is required' }),
 
   inStock: z.boolean().default(true),
+  // createdAt: z.string().optional(),
+  // updatedAt: z.string().optional()
 });
 
 export default carValidationSchema;

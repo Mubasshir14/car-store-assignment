@@ -40,6 +40,18 @@ const orderSchema = new Schema<TOrder>(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_, ret) => {
+        delete ret.__v;
+        return ret;
+      },
+    },
+    toObject: {
+      transform: (_, ret) => {
+        delete ret.__v;
+        return ret;
+      },
+    },
   },
 );
 

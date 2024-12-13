@@ -141,11 +141,10 @@ car-store/
 | PUT    | `/api/cars/:id` | Update an existing car |
 | DELETE | `/api/cars/:id` | Delete a car by ID     |
 
-
 ### **Orders**
 
 | Method | Endpoint          | Description            |
-| ------ | ---------------   | ---------------------- |
+| ------ | ----------------- | ---------------------- |
 | GET    | `/api/orders`     | Retrieve all orders    |
 | GET    | `/api/orders/:id` | Retrieve a order by ID |
 | POST   | `/api/orders`     | Add a new orders       |

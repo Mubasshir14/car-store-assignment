@@ -12,4 +12,6 @@ export type TOrder = {
   car: Types.ObjectId | string;
   quantity: number;
   totalPrice: number;
+  // createdAt: Date;
+  // updatedAt: Date;
 };
